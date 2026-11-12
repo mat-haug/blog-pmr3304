@@ -1,0 +1,23 @@
+{% load static %}<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Blog{% endblock %} | Blog PMR3304</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="{% url 'blog:post_list' %}">Blog PMR3304</a>
+      <a href="{% url 'blog:post_list' %}">Posts</a>
+      <a href="{% url 'blog:post_create' %}">Novo post</a>
+      <a href="{% url 'admin:index' %}">Admin</a>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>PMR3304 · Segunda entrega de laboratório</footer>
+</body>
+</html>
