@@ -1,4 +1,6 @@
-"""Versão 3: views com as classes genéricas do Django."""
+"""Views do blog: posts (classes genéricas) e comentários."""
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -9,7 +11,7 @@ from django.views.generic import (
 )
 
 from .forms import PostForm
-from .models import Post
+from .models import Comment, Post
 
 
 class PostListView(ListView):
@@ -44,3 +46,28 @@ class PostDeleteView(DeleteView):
     template_name = "blog/post_confirm_delete.html"
     context_object_name = "post"
     success_url = reverse_lazy("blog:post_list")
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    """Cria um comentário no post indicado pela URL; o autor é o usuário logado."""
+
+    model = Comment
+    fields = ["text"]
+    template_name = "blog/comment_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.post_obj = get_object_or_404(Post, pk=kwargs["pk"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["post"] = self.post_obj
+        return context
+
+    def form_valid(self, form):
+        form.instance.post = self.post_obj
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return self.post_obj.get_absolute_url()
