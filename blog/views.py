@@ -1,6 +1,6 @@
-"""Views do blog: posts (classes genéricas) e comentários."""
+"""Views do blog: posts (classes genéricas), comentários e categorias."""
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -11,7 +11,7 @@ from django.views.generic import (
 )
 
 from .forms import PostForm
-from .models import Comment, Post
+from .models import Category, Comment, Post
 
 
 class PostListView(ListView):
@@ -71,3 +71,22 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return self.post_obj.get_absolute_url()
+
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = "blog/category_list.html"
+    context_object_name = "category_list"
+
+
+def category_detail(request, pk):
+    """Lista os posts de uma categoria reutilizando o template de listagem de posts.
+
+    Responde com 404 caso a categoria requisitada não exista.
+    """
+    category = get_object_or_404(Category, pk=pk)
+    context = {
+        "category": category,
+        "post_list": category.posts.all(),
+    }
+    return render(request, "blog/post_list.html", context)
