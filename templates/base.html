@@ -13,6 +13,7 @@
       <a href="{% url 'blog:post_list' %}">Posts</a>
       <a href="{% url 'blog:post_create' %}">Novo post</a>
       <a href="{% url 'admin:index' %}">Admin</a>
+      {% if user.is_authenticated %}<span class="meta" style="color:#cfd8e3">Olá, {{ user.username }}</span>{% endif %}
     </nav>
   </header>
   <main>
