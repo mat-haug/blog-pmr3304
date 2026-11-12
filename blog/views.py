@@ -1,46 +1,46 @@
-"""Versão 2: views funcionais utilizando um Django form."""
-from django.shortcuts import get_object_or_404, redirect, render
+"""Versão 3: views com as classes genéricas do Django."""
+from django.urls import reverse_lazy
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 
 from .forms import PostForm
 from .models import Post
 
 
-def post_list(request):
-    posts = Post.objects.all()
-    return render(request, "blog/post_list.html", {"post_list": posts})
+class PostListView(ListView):
+    model = Post
+    template_name = "blog/post_list.html"
+    context_object_name = "post_list"
 
 
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    return render(request, "blog/post_detail.html", {"post": post})
+class PostDetailView(DetailView):
+    # DetailView já responde com 404 quando o post não existe.
+    model = Post
+    template_name = "blog/post_detail.html"
+    context_object_name = "post"
 
 
-def post_create(request):
-    if request.method == "POST":
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save()
-            return redirect("blog:post_detail", pk=post.pk)
-    else:
-        form = PostForm()
-    return render(request, "blog/post_form.html", {"form": form})
+class PostCreateView(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = "blog/post_form.html"
+    # Após salvar, redireciona para Post.get_absolute_url().
 
 
-def post_update(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            post = form.save()
-            return redirect("blog:post_detail", pk=post.pk)
-    else:
-        form = PostForm(instance=post)
-    return render(request, "blog/post_form.html", {"form": form, "post": post})
+class PostUpdateView(UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = "blog/post_form.html"
+    context_object_name = "post"
 
 
-def post_delete(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == "POST":
-        post.delete()
-        return redirect("blog:post_list")
-    return render(request, "blog/post_confirm_delete.html", {"post": post})
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = "blog/post_confirm_delete.html"
+    context_object_name = "post"
+    success_url = reverse_lazy("blog:post_list")
