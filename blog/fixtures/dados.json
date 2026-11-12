@@ -1,0 +1,136 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 101,
+    "fields": {
+      "username": "ana",
+      "first_name": "Ana",
+      "last_name": "Souza",
+      "email": "",
+      "password": "!",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true,
+      "date_joined": "2026-11-01T09:00:00-03:00"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 102,
+    "fields": {
+      "username": "bruno",
+      "first_name": "Bruno",
+      "last_name": "Lima",
+      "email": "",
+      "password": "!",
+      "is_staff": false,
+      "is_superuser": false,
+      "is_active": true,
+      "date_joined": "2026-11-01T09:05:00-03:00"
+    }
+  },
+  {
+    "model": "blog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Programação",
+      "description": "Posts sobre linguagens, frameworks e boas práticas de código."
+    }
+  },
+  {
+    "model": "blog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Web",
+      "description": "Desenvolvimento de aplicações e sites para a web."
+    }
+  },
+  {
+    "model": "blog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Banco de Dados",
+      "description": "Modelagem, SQL e persistência de dados."
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 1,
+    "fields": {
+      "title": "Primeiros passos com o Django",
+      "content": "<p>O <strong>Django</strong> é um framework web em Python que segue o padrão MTV (Model, Template, View).</p><p>Neste post mostro como criar um projeto, um app e a primeira view.</p><ul><li><code>django-admin startproject</code></li><li><code>python manage.py startapp</code></li><li><code>python manage.py runserver</code></li></ul>",
+      "date": "2026-11-03T10:00:00-03:00",
+      "categories": [1, 2]
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 2,
+    "fields": {
+      "title": "Modelos e o ORM do Django",
+      "content": "<p>Com o ORM, cada classe em <code>models.py</code> vira uma tabela no banco de dados.</p><p>Relacionamentos como <em>ForeignKey</em> e <em>ManyToManyField</em> permitem ligar comentários e categorias aos posts.</p>",
+      "date": "2026-11-06T15:30:00-03:00",
+      "categories": [2, 3]
+    }
+  },
+  {
+    "model": "blog.post",
+    "pk": 3,
+    "fields": {
+      "title": "Dicas para escrever código limpo",
+      "content": "<p>Nomes claros, funções pequenas e commits frequentes deixam o projeto mais fácil de manter.</p><blockquote>Código é lido muito mais vezes do que é escrito.</blockquote>",
+      "date": "2026-11-09T19:45:00-03:00",
+      "categories": [1]
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 1,
+    "fields": {
+      "post": 1,
+      "author": 101,
+      "text": "Ótima introdução! Consegui criar meu primeiro projeto.",
+      "date": "2026-11-03T12:10:00-03:00"
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 2,
+    "fields": {
+      "post": 1,
+      "author": 102,
+      "text": "Faltou falar do arquivo settings.py, mas ajudou bastante.",
+      "date": "2026-11-04T08:20:00-03:00"
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 3,
+    "fields": {
+      "post": 1,
+      "author": 101,
+      "text": "Respondendo ao Bruno: o settings.py vai ser o próximo post!",
+      "date": "2026-11-04T09:00:00-03:00"
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 4,
+    "fields": {
+      "post": 2,
+      "author": 102,
+      "text": "O ManyToManyField facilitou muito as categorias.",
+      "date": "2026-11-07T11:00:00-03:00"
+    }
+  },
+  {
+    "model": "blog.comment",
+    "pk": 5,
+    "fields": {
+      "post": 2,
+      "author": 101,
+      "text": "Dá para ver as tabelas geradas abrindo o db.sqlite3 no DB Browser.",
+      "date": "2026-11-07T14:25:00-03:00"
+    }
+  }
+]
