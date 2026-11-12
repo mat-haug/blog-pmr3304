@@ -6,12 +6,7 @@
   <h1>{% if post %}Editar post{% else %}Novo post{% endif %}</h1>
   <form method="post">
     {% csrf_token %}
-    <label>Título
-      <input type="text" name="title" value="{{ post.title|default:'' }}">
-    </label>
-    <label>Conteúdo (HTML)
-      <textarea name="content">{{ post.content|default:'' }}</textarea>
-    </label>
+    {{ form.as_p }}
     <div class="actions">
       <button class="btn" type="submit">Salvar</button>
       {% if post %}
